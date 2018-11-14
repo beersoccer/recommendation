@@ -1,44 +1,30 @@
-# recommendation
-A collaborative filtering based recommendation system
-
 *阅读本文的其他语言版本：[English](README.md)。*
-# 使用 Apache Spark 和 Elasticsearch 构建一个推荐系统
+# 基于 Apache Spark 和 Elasticsearch 的可伸缩的推荐系统
 
-推荐引擎是应用机器学习的最著名、最广泛使用、最有价值的用例之一。尽管有许多资源可用作训练推荐模型的基础，但解释如何实际部署这些模型来创建大型推荐系统的资源仍然相对较少。
+本系统通过存储在 Elasticsearch 中的用户行为数据，使用 Spark 来训练一个协同过滤推荐模型，并将训练好的模型保存到 Elasticsearch，然后使用 Elasticsearch 通过该模型来提供实时推荐。以此达到离线训练，在线推荐的目的。
 
-本 Code Pattern 将演示使用 Apache Spark 和 Elasticsearch 创建这样一个系统的关键要素。
+因为使用了 Elasticsearch 插件，系统除了能够提供个性化用户和类似条目推荐，还能够将推荐与搜索和内容过滤相结合。
 
-此存储库包含一个 Jupyter Notebook，将演示如何通过存储在 Elasticsearch 中的评分数据，使用 Spark 来训练一个协同过滤推荐模型，并将模型因素保存到 Elasticsearch，然后使用 Elasticsearch 通过该模型来提供实时推荐。您将使用的数据来自 [MovieLens](https://grouplens.org/datasets/movielens/)，而且是推荐社区中的一个通用的基准数据集。该数据包含 MovieLens 电影评分系统的用户为各种电影提供的一组评分。还包含每部电影的元数据（标题和类别）。
+本文主要描述了如下内容：
 
-完成此 Code Pattern 后，您将掌握如何：
-
-* 使用 Elasticsearch Spark 连接器将用户事件数据摄入到 Elasticsearch 中并建立索引
-* 将事件数据加载到 Spark DataFrames 中，并使用 Spark 的机器学习库 (MLlib) 来训练一个协同过滤推荐系统模型
-* 将训练后的模型导出到 Elasticsearch 中
+* 使用 Elasticsearch Spark 连接器将用户行为数据导入到 Elasticsearch 中并建立索引。
+* 将行为数据加载到 Spark DataFrames 中，并使用 Spark 的机器学习库 (ML) 来训练一个协同过滤推荐系统模型。
+* 将训练后的模型导出到 Elasticsearch 中。
 * 使用一个自定义 Elasticsearch 插件，计算 _个性化用户_ 和 _类似条目_ 推荐，并将推荐与搜索和内容过滤相结合。
 
 ![架构图](doc/source/images/architecture.png)
 
 ## 操作流程
-1. 将电影数据集加载到 Spark 中。
+1. 将数据集加载到 Spark 中。
 2. 使用 Spark DataFrame 操作清理该数据集，并将它加载到 Elasticsearch 中。
-3. 使用 Spark MLlib，训练一个协同过滤推荐模型。
+3. 使用 Spark ML，训练一个协同过滤推荐模型。
 4. 将得到的模型保存到 Elasticsearch 中。
-5. 使用 Elasticsearch 查询和一个自定义矢量评分插件，生成一些示例推荐。使用 [Movie Database](https://www.themoviedb.org/) API 来显示所推荐的电影的电影海报图像。
+5. 使用 Elasticsearch 查询和一个自定义矢量评分插件，生成一些示例推荐。
 
 ## 包含的组件
 * [Apache Spark](http://spark.apache.org/)：一个开源、快速、通用的集群计算系统
 * [Elasticsearch](http://elasticsearch.org)：开源搜索和分析引擎
 * [Jupyter Notebook](http://jupyter.org/)：一种开源 Web 应用程序，可用来创建和共享包含实时代码、等式、可视化和解释文本的文档。
-
-## 精选技术
-* [数据科学](https://medium.com/ibm-data-science-experience/)：分析结构化和非结构化数据
-来提取知识和洞察的系统和科学方法。
-* [人工智能](https://medium.com/ibm-data-science-experience)：人工智能可应用于不同的解决方案领域来提供颠覆性技术。
-* [Python](https://www.python.org/)：Python 是一种支持更快速地工作并能更有效地集成系统的编程语言。
-
-# 观看视频
-[![](http://img.youtube.com/vi/MJUO0CLNbB0/0.jpg)](http://v.youku.com/v_show/id_XMzYwNjg4MjkwNA==.html)
 
 # 步骤
 按照以下步骤创建所需的服务并在本地运行该 Notebook。
