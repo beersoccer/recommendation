@@ -17,35 +17,26 @@
 ## 操作流程
 1. 将数据集加载到 Spark 中。
 2. 使用 Spark DataFrame 操作清理该数据集，并将它加载到 Elasticsearch 中。
-3. 使用 Spark ML，训练一个协同过滤推荐模型。
+3. 使用 Spark ML，离线训练一个协同过滤推荐模型。
 4. 将得到的模型保存到 Elasticsearch 中。
-5. 使用 Elasticsearch 查询和一个自定义矢量评分插件，生成一些示例推荐。
+5. 使用 Elasticsearch 查询和一个自定义矢量评分插件，在线生成用户推荐。
 
 ## 包含的组件
-* [Apache Spark](http://spark.apache.org/)：一个开源、快速、通用的集群计算系统
-* [Elasticsearch](http://elasticsearch.org)：开源搜索和分析引擎
+* [Apache Spark](http://spark.apache.org/)：一个开源、快速、通用的集群计算系统。
+* [Elasticsearch](http://elasticsearch.org)：开源搜索和分析引擎。
 * [Jupyter Notebook](http://jupyter.org/)：一种开源 Web 应用程序，可用来创建和共享包含实时代码、等式、可视化和解释文本的文档。
 
 # 步骤
-按照以下步骤创建所需的服务并在本地运行该 Notebook。
+按照以下步骤部署所需的部件，并创建推荐服务。
 
-1. [克隆存储库](#1-clone-the-repo)
-2. [设置 Elasticsearch](#2-set-up-elasticsearch)
-3. [下载 Elasticsearch Spark 连接器](#3-download-the-elasticsearch-spark-connector)
-4. [下载 Apache Spark](#4-download-apache-spark)
-5. [下载数据](#5-download-the-data)
-6. [启动 Notebook](#6-launch-the-notebook)
-7. [运行 Notebook](#7-run-the-notebook)
+1. [设置 Elasticsearch](#2-set-up-elasticsearch)
+2. [下载 Elasticsearch Spark 连接器](#3-download-the-elasticsearch-spark-connector)
+3. [下载 Apache Spark](#4-download-apache-spark)
+4. [数据准备](#5-prepare-the-data)
+5. [启动 Notebook](#6-launch-the-notebook)
+6. [运行 Notebook](#7-run-the-notebook)
 
-### 1.克隆存储库
-
-将 `elasticsearch-spark-recommender` 存储库克隆到本地。在一个终端中，运行以下命令：
-
-```
-$ git clone https://github.com/IBM/elasticsearch-spark-recommender.git
-```
-
-### 2.设置 Elasticsearch
+### 1.设置 Elasticsearch
 
 此 Code Pattern 目前依赖于 Elasticsearch 5.3.0。转到[下载页面](https://www.elastic.co/downloads/past-releases/elasticsearch-5-3-0)，下载适合您的系统的包。
 
@@ -91,7 +82,7 @@ $ ./bin/elasticsearch
 $ pip install elasticsearch
 ```
 
-### 3.下载 Elasticsearch Spark 连接器
+### 2.下载 Elasticsearch Spark 连接器
 
 [Elasticsearch Hadoop 项目](https://www.elastic.co/products/hadoop) 提供了 Elasticsearch 与各种兼容 Hadoop 的系统（包括 Spark）之间的连接器。该项目提供了一个 ZIP 文件供下载，其中包含所有这些连接器。您运行 PySpark Notebook 时需要将特定于 Spark 的连接器 JAR 文件放在类路径上。按照以下步骤设置连接器：
 
@@ -105,7 +96,7 @@ $ unzip elasticsearch-hadoop-5.3.0.zip
 ```
 3.Spark 连接器的 JAR 名为 `elasticsearch-spark-20_2.11-5.3.0.jar`，它将位于您解压上述文件所用的目录的 `dist` 子文件夹中。
 
-### 4.下载 Apache Spark
+### 3.下载 Apache Spark
 
 本 Code Pattern 应适用于任何 Spark 2.x 版本，但是推荐从[下载页面](http://spark.apache.org/downloads.html) 下载最新版 Spark（目前为 2.2.0）。下载该文件后，运行以下命令来解压它：
 ```
@@ -121,7 +112,7 @@ $ tar xfz spark-2.2.0-bin-hadoop2.7.tgz
 $ pip install numpy
 ```
 
-### 5.下载数据
+### 4.数据准备
 
 您将使用 [Movielens 数据集](https://grouplens.org/datasets/movielens/)，其中包含一组电影用户提供的评分和电影元数据。该数据集有多个版本。您应该下载 ["latest small” 版本](http://files.grouplens.org/datasets/movielens/ml-latest-small.zip)。
 
@@ -133,7 +124,7 @@ $ wget http://files.grouplens.org/datasets/movielens/ml-latest-small.zip
 $ unzip ml-latest-small.zip
 ```
 
-### 6.启动 Notebook
+### 5.启动 Notebook
 
 > 该 Notebook 应该适用于 Python 2.7 或 3.x（而且已在 2.7.11 和 3.6.1 上测试）
 
@@ -163,7 +154,7 @@ $ pip install tmdbsimple
 >
 > 不访问此 API 也能执行该演示，但不会显示图像（所以看起来不太美观！）。
 
-### 7.运行该 Notebook
+### 6.运行该 Notebook
 
 执行一个 Notebook 时，实际情况是，
 按从上往下的顺序执行该 Notebook 中的每个代码单元。
