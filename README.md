@@ -24,7 +24,7 @@
 ## 包含的组件
 * [Apache Spark](http://spark.apache.org/)：一个开源、快速、通用的集群计算系统。
 * [Elasticsearch](http://elasticsearch.org)：开源搜索和分析引擎。
-* [Jupyter Notebook](http://jupyter.org/)：一种开源 Web 应用程序，可用来创建和共享包含实时代码、等式、可视化和解释文本的文档。
+* [Elasticsearch Vector Scoring](https://github.com/MLnick/elasticsearch-vector-scoring)：A plugin allows you to score documents based on arbitrary raw vectors, using dot product or cosine similarity.
 
 # 步骤
 按照以下步骤部署所需的部件，并创建推荐服务。
@@ -38,9 +38,9 @@
 
 ### 1.设置 Elasticsearch
 
-此 Code Pattern 目前依赖于 Elasticsearch 5.3.0。转到[下载页面](https://www.elastic.co/downloads/past-releases/elasticsearch-5-3-0)，下载适合您的系统的包。
+此推荐系统目前依赖于 Elasticsearch 5.3.0。转到[下载页面](https://www.elastic.co/downloads/past-releases/elasticsearch-5-3-0)，下载适合您的系统的包。
 
-例如在 Linux / Mac 上，可以下载 [TAR 归档文件](https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.3.0.tar.gz) 并使用以下命令进行解压：
+如果在 Linux / Mac 上，可以下载 [TAR 归档文件](https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.3.0.tar.gz) 并使用以下命令进行解压：
 
 ```
 $ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.3.0.tar.gz
@@ -53,7 +53,7 @@ $ tar xfz elasticsearch-5.3.0.tar.gz
 $ cd elasticsearch-5.3.0
 ```
 
-接下来，您需要安装 [Elasticsearch 矢量评分插件](https://github.com/MLnick/elasticsearch-vector-scoring)。为此，可以运行以下命令（Elasticsearch 将为您下载插件文件）：
+接下来安装 [Elasticsearch 矢量评分插件](https://github.com/MLnick/elasticsearch-vector-scoring)。运行以下命令（Elasticsearch 将为您下载插件文件）：
 
 ```
 $ ./bin/elasticsearch-plugin install https://github.com/MLnick/elasticsearch-vector-scoring/releases/download/v5.3.0/elasticsearch-vector-scoring-5.3.0.zip
@@ -65,7 +65,7 @@ $ ./bin/elasticsearch-plugin install https://github.com/MLnick/elasticsearch-vec
 $ ./bin/elasticsearch
 ```
 
-您会看到一些显示的启动日志。核查 `elasticsearch-vector-scoring-plugin` 已成功加载：
+您会看到一些显示的启动日志。如果显示 `elasticsearch-vector-scoring-plugin` 则插件已成功加载：
 
 ```
 $ ./bin/elasticsearch
@@ -76,15 +76,17 @@ $ ./bin/elasticsearch
 ...
 ```
 
-最后，您将需要安装 Elasticsearch Python 客户端。为此，可以运行以下命令（执行此命令时使用的终端窗口应该与运行 Elasticsearch 的终端窗口不同）：
+最后安装 Elasticsearch Python 客户端。运行以下命令（执行此命令时使用的终端窗口应该与运行 Elasticsearch 的终端窗口不同）：
 
 ```
 $ pip install elasticsearch
 ```
 
+如果系统安装了Anaconda，也可以使用conda install命令来安装。
+
 ### 2.下载 Elasticsearch Spark 连接器
 
-[Elasticsearch Hadoop 项目](https://www.elastic.co/products/hadoop) 提供了 Elasticsearch 与各种兼容 Hadoop 的系统（包括 Spark）之间的连接器。该项目提供了一个 ZIP 文件供下载，其中包含所有这些连接器。您运行 PySpark Notebook 时需要将特定于 Spark 的连接器 JAR 文件放在类路径上。按照以下步骤设置连接器：
+[Elasticsearch Hadoop 项目](https://www.elastic.co/products/hadoop) 提供了 Elasticsearch 与各种兼容 Hadoop 的系统（包括 Spark）之间的连接器。该项目提供了一个 ZIP 文件供下载，其中包含所有这些连接器。此推荐系统需要将特定于 Spark 的连接器 JAR 文件放在类路径上。按照以下步骤设置连接器：
 
 1.[下载](http://download.elastic.co/hadoop/elasticsearch-hadoop-5.3.0.zip) `elasticsearch-hadoop-5.3.0.zip` 文件，其中包含所有连接器。为此，可以运行：
 ```
@@ -98,12 +100,12 @@ $ unzip elasticsearch-hadoop-5.3.0.zip
 
 ### 3.下载 Apache Spark
 
-本 Code Pattern 应适用于任何 Spark 2.x 版本，但是推荐从[下载页面](http://spark.apache.org/downloads.html) 下载最新版 Spark（目前为 2.2.0）。下载该文件后，运行以下命令来解压它：
+本推荐系统适用于任何 Spark 2.x 版本，从[下载页面](http://spark.apache.org/downloads.html) 下载最新版 Spark（目前为 2.2.0）。下载该文件后，运行以下命令来解压它：
 ```
 $ tar xfz spark-2.2.0-bin-hadoop2.7.tgz
 ```
 
-> *请注意，如果下载不同的版本，应该相应地调整上面使用的相关命令和本 Code Pattern 中的其他地方*
+> *请注意，如果下载不同的版本，应该相应地调整上面使用的相关命令和其他地方*
 
 ![下载 Apache Spark](doc/source/images/download-apache-spark.png)
 
