@@ -8,7 +8,7 @@
 本文主要描述了如下内容：
 
 * 使用 Elasticsearch Spark 连接器将用户行为数据导入到 Elasticsearch 中并建立索引。
-* 将行为数据加载到 Spark DataFrames 中，并使用 Spark 的机器学习库 (ML) 来训练一个协同过滤推荐系统模型。
+* 将行为数据加载到 Spark DataFrames 中，并使用 Spark 的机器学习库 (MLlib) 来训练一个协同过滤推荐系统模型。
 * 将训练后的模型导出到 Elasticsearch 中。
 * 使用一个自定义 Elasticsearch 插件，计算 _个性化用户_ 和 _类似条目_ 推荐，并将推荐与搜索和内容过滤相结合。
 
@@ -17,7 +17,7 @@
 ## 操作流程
 1. 将数据集加载到 Spark 中。
 2. 使用 Spark DataFrame 操作清理该数据集，并将它加载到 Elasticsearch 中。
-3. 使用 Spark ML，离线训练一个协同过滤推荐模型。
+3. 使用 Spark MLlib，离线训练一个协同过滤推荐模型。
 4. 将得到的模型保存到 Elasticsearch 中。
 5. 使用 Elasticsearch 查询和一个自定义矢量评分插件，在线生成用户推荐。
 
@@ -109,7 +109,7 @@ $ tar xfz spark-2.2.0-bin-hadoop2.7.tgz
 
 ![下载 Apache Spark](doc/source/images/download-apache-spark.png)
 
-您还需要安装 [Numpy](http://www.numpy.org)，才能使用 Spark 的机器学习库 [MLlib](http://spark.apache.org/mllib)。如果没有安装 Numpy，请运行以下命令：
+Spark 的机器学习库 [MLlib](http://spark.apache.org/mllib)依赖于 [Numpy](http://www.numpy.org)，运行以下命令安装 Numpy：
 ```
 $ pip install numpy
 ```
