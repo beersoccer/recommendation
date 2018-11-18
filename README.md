@@ -1,4 +1,3 @@
-*阅读本文的其他语言版本：[English](README.md)。*
 # 基于 Apache Spark 和 Elasticsearch 的可伸缩的推荐系统
 
 本系统通过存储在 Elasticsearch 中的用户行为数据，使用 Spark 来训练一个协同过滤推荐模型，并将训练好的模型保存到 Elasticsearch，然后使用 Elasticsearch 通过该模型来提供实时推荐。以此达到离线训练，在线推荐的目的。
@@ -100,12 +99,12 @@ $ unzip elasticsearch-hadoop-5.3.0.zip
 
 ### 3.下载 Apache Spark
 
-本推荐系统适用于任何 Spark 2.x 版本，从[下载页面](http://spark.apache.org/downloads.html) 下载最新版 Spark（目前为 2.2.0）。下载该文件后，运行以下命令来解压它：
+本推荐系统适用于任何 Spark 2.x 版本，从[下载页面](http://spark.apache.org/downloads.html) 下载最新版 Spark（目前为 2.2.0）。运行以下命令来解压它：
 ```
 $ tar xfz spark-2.2.0-bin-hadoop2.7.tgz
 ```
 
-> *请注意，如果下载不同的版本，应该相应地调整上面使用的相关命令和其他地方*
+> *请注意，如果下载不同的版本，应该相应地调整上面使用的相关命令和其他地方。*
 
 ![下载 Apache Spark](doc/source/images/download-apache-spark.png)
 
@@ -116,15 +115,15 @@ $ pip install numpy
 
 ### 4.数据准备
 
-您将使用 [Movielens 数据集](https://grouplens.org/datasets/movielens/)，其中包含一组电影用户提供的评分和电影元数据。该数据集有多个版本。您应该下载 ["latest small” 版本](http://files.grouplens.org/datasets/movielens/ml-latest-small.zip)。
+推荐系统依赖于一个用户行为数据集，用户行为包括浏览、购买资源。如果只记录了购买行为，那么暂时就只以此行为构建数据集。
 
-从 Code Pattern 存储库的基本目录运行以下命令：
+数据集中的每条数据是一个多元组，其中包括：
+* userId，全局唯一的用户Id，这里的用户是指真实购买资源的广告主，而不是在系统中进行操作的代理商。
+* itemId，全局唯一的资源Id，这里的资源是指可以展示广告的广告位。
+* rating，用户评分，系统目前没有真实的用户评分行为，我们将用户的浏览、购买行为等价为评分。一次浏览为3分，一次购买为5分。
+* timeStamp，时间戳，用户产生这次行为的时间，时间精确到秒。
 
-```
-$ cd data
-$ wget http://files.grouplens.org/datasets/movielens/ml-latest-small.zip
-$ unzip ml-latest-small.zip
-```
+数据文件的格式可以参考 [Movielens 数据集](https://grouplens.org/datasets/movielens/)，其中包含一组电影用户提供的评分和电影元数据。我们的数据集可以完全照此准备。
 
 ### 5.启动 Notebook
 
