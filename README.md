@@ -11,7 +11,7 @@
 * 将训练后的模型导出到 Elasticsearch 中。
 * 使用一个自定义 Elasticsearch 插件，计算 _个性化用户_ 和 _类似条目_ 推荐，并将推荐与搜索和内容过滤相结合。
 
-![架构图](doc/source/images/architecture.png)
+![架构图](doc/image/architecture.png)
 
 ## 操作流程
 1. 将数据集加载到 Spark 中。
@@ -106,7 +106,7 @@ $ tar xfz spark-2.2.0-bin-hadoop2.7.tgz
 
 > *请注意，如果下载不同的版本，应该相应地调整上面使用的相关命令和其他地方。*
 
-![下载 Apache Spark](doc/source/images/download-apache-spark.png)
+![下载 Apache Spark](doc/image/download-apache-spark.png)
 
 Spark 的机器学习库 [MLlib](http://spark.apache.org/mllib)依赖于 [Numpy](http://www.numpy.org)，运行以下命令安装 Numpy：
 ```
@@ -144,7 +144,7 @@ PYSPARK_DRIVER_PYTHON="jupyter" PYSPARK_DRIVER_PYTHON_OPTS="notebook" ../spark-2
 
 这会打开一个浏览器窗口，其中显示了 Code Pattern 文件夹内容。单击 `notebooks` 子文件夹，然后单击 `elasticsearch-spark-recommender.ipynb` 文件启动该 Notebook。
 
-![启动 Notebook](doc/source/images/launch-notebook.png)
+![启动 Notebook](doc/image/launch-notebook.png)
 
 > _可选：_
 >
